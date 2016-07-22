@@ -213,3 +213,16 @@
         </div>
     </div>
 </section>
+@section scripts{
+ 
+<script type="text/javascript">
+    $(function () {
+        var mission = $('.mission .img-mission');
+        mission.css('opacity', 0);
+        mission.waypoint(function () {
+            mission.addClass('animated fadeInUp');
+        }, { offset: '50%' });
+    });
+</script>
+ }
+}

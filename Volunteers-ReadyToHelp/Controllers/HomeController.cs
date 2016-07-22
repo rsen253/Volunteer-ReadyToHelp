@@ -22,5 +22,15 @@ namespace Volunteers_ReadyToHelp.Controllers
         {
             return View();
         }
+
+        public ActionResult AllActivities()
+        {
+            return View();
+        }
+
+        public ActionResult ActivityDetails()
+        {
+            return View();
+        }
     }
 }

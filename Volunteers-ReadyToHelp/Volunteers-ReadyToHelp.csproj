@@ -164,11 +164,33 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607211248068_InitialCreate.cs" />
+    <Compile Include="Migrations\201607211248068_InitialCreate.Designer.cs">
+      <DependentUpon>201607211248068_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607220817032_ModifiedUserTable.cs" />
+    <Compile Include="Migrations\201607220817032_ModifiedUserTable.Designer.cs">
+      <DependentUpon>201607220817032_ModifiedUserTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607220913049_AddCountryState.cs" />
+    <Compile Include="Migrations\201607220913049_AddCountryState.Designer.cs">
+      <DependentUpon>201607220913049_AddCountryState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607220923088_ModifyStateColumn.cs" />
+    <Compile Include="Migrations\201607220923088_ModifyStateColumn.Designer.cs">
+      <DependentUpon>201607220923088_ModifyStateColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Country.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\State.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\LoginUserViewModel.cs" />
+    <Compile Include="ViewModels\RegistrationViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />
@@ -225,6 +247,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery.waypoints.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\myscript.js" />
     <Content Include="Scripts\respond.js" />
@@ -265,6 +288,8 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Home\AllActivities.cshtml" />
+    <Content Include="Views\Home\ActivityDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -275,6 +300,20 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201607211248068_InitialCreate.resx">
+      <DependentUpon>201607211248068_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607220817032_ModifiedUserTable.resx">
+      <DependentUpon>201607220817032_ModifiedUserTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607220913049_AddCountryState.resx">
+      <DependentUpon>201607220913049_AddCountryState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607220923088_ModifyStateColumn.resx">
+      <DependentUpon>201607220923088_ModifyStateColumn.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

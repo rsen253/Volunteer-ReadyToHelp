@@ -13,6 +13,7 @@ namespace Volunteers_ReadyToHelp
                         "~/Scripts/myscript.js",
                         "~/Scripts/font-awesome.js",
                         "~/Scripts/isotope.pkgd.min.js",
+                        "~/Scripts/jquery.waypoints.min.js",
                         "~/Scripts/jquery-ui.min.js"
                         ));
 

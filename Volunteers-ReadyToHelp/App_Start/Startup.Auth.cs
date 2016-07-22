@@ -54,9 +54,9 @@ namespace Volunteers_ReadyToHelp
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "jhbvjhbdf8767",
+               appSecret: "dbhvdjbgvygdfh");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
