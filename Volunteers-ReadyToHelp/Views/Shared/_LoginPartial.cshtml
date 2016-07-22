@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <li>
+        <a href="@Url.Action("Index","Manage")">
+            <img class="img-circle" src="~/images/testimonial-johnb.jpg" style="height:50px;width:50px;" alt="Alternate Text" />
+        </a>
+
+    </li>
+    <li>@Html.ActionLink("LogOff","LogOff","Account")</li>
+}
+else
+{
+    
+        <li>@Html.ActionLink("Join", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Sign In", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    
+}

@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer - Ready to help</title>
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header" id="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand animated fadeIn" href="@Url.Action("index","Home")"><h1>Volunteer<span class="subhead">Ready to help</span></h1></a>
+                </div>
+                <div class="collapse navbar-collapse" id="collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Mission", "Mission", "Home")</li>
+                        <li>@Html.ActionLink("Services", "Services", "Home")</li>
+                        <li>@Html.ActionLink("Activities", "Contact", "Home")</li>
+                        <li>@Html.Partial("_LoginPartial")</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+           <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <p>
+                        <i class="fa fa-map-marker fa-3x" aria-hidden="true"></i>
+                        <span>
+                            4749 Armbrester Drive
+
+                            <b>NEOPIT,Wisconsin</b>
+                        </span>
+                    </p>
+                    <p>
+                        <i class="fa fa-phone-square fa-3x" aria-hidden="true"></i>
+                        <span>
+                            <b>+0767565-98</b>
+                        </span>
+                        
+                    </p>
+                    <p>
+                        <i class="fa fa-envelope fa-3x" aria-hidden="true"></i>
+                        <span>
+                            <a href="mailto:rsen253@gmail.com"><b>Mail Us!!</b></a>
+                           
+                        </span>
+                        
+                    </p>
+                </div>
+                <div class="col-sm-6 text-center">
+                    <h3>About Us</h3>
+                    <p>Rump ham meatloaf, tenderloin meatball capicola tri-tip bresaola hamburger turkey short loin pig pork loin drumstick tongue. Short loin fatback filet mignon, kielbasa pork chop chuck cow capicola.Rump ham meatloaf, tenderloin meatball capicola tri-tip bresaola hamburger turkey short loin pig pork loin drumstick tongue. Short loin fatback filet mignon, kielbasa pork chop chuck cow capicola.</p>
+                    <p>
+                        <a href="#"><img src="~/images/company1.png" alt="Alternate Text" /></a>
+                        <a href="#"><img src="~/images/company2.png" alt="Alternate Text" /></a>
+                        <a href="#"><img src="~/images/company3.png" alt="Alternate Text" /></a>
+                        <a href="#"><img src="~/images/company4.png" alt="Alternate Text" /></a>
+                        <a href="#"><img src="~/images/company2.png" alt="Alternate Text" /></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid copyright text-center">
+            <h6>All rights reserved &copy;<b>Rahul</b> 2016</h6>
+        </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
