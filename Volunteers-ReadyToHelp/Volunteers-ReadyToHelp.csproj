@@ -159,6 +159,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -180,6 +181,10 @@
     <Compile Include="Migrations\201607220923088_ModifyStateColumn.Designer.cs">
       <DependentUpon>201607220923088_ModifyStateColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607251249142_modifiedDatatypeinUserField.cs" />
+    <Compile Include="Migrations\201607251249142_modifiedDatatypeinUserField.Designer.cs">
+      <DependentUpon>201607251249142_modifiedDatatypeinUserField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Country.cs" />
@@ -189,6 +194,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CountryStateViewModel.cs" />
     <Compile Include="ViewModels\LoginUserViewModel.cs" />
     <Compile Include="ViewModels\RegistrationViewModel.cs" />
   </ItemGroup>
@@ -196,6 +202,7 @@
     <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -290,6 +297,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\AllActivities.cshtml" />
     <Content Include="Views\Home\ActivityDetails.cshtml" />
+    <Content Include="Views\Admin\AddCountry.cshtml" />
+    <Content Include="Views\Admin\AddState.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -313,6 +322,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607220923088_ModifyStateColumn.resx">
       <DependentUpon>201607220923088_ModifyStateColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607251249142_modifiedDatatypeinUserField.resx">
+      <DependentUpon>201607251249142_modifiedDatatypeinUserField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

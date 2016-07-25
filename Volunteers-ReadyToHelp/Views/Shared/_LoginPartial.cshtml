@@ -2,10 +2,10 @@
 @if (Request.IsAuthenticated)
 {
     <li>
-        <a href="@Url.Action("Index","Manage")">
+        @*<a href="@Url.Action("Index","Manage")">
             <img class="img-circle" src="~/images/testimonial-johnb.jpg" style="height:50px;width:50px;" alt="Alternate Text" />
-        </a>
-
+        </a>*@
+        @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
     </li>
     <li>@Html.ActionLink("LogOff","LogOff","Account")</li>
 }

@@ -32,6 +32,7 @@ namespace Volunteers_ReadyToHelp
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
                       "~/Content/animate.css",
+                      "~/Content/jquery-ui.css",
                       "~/Content/style.css"));
         }
     }

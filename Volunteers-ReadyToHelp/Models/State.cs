@@ -8,18 +8,19 @@ namespace Volunteers_ReadyToHelp.Models
 {
     public class State
     {
-        Guid id = Guid.NewGuid();
-        [NotMapped]
-        public string _stateId { get; set; }
-        public string StateId
-        {
-            get { return _stateId;}
-            set { _stateId = id.ToString(); }
-        }
+        //Guid id = Guid.NewGuid();
+        //[NotMapped]
+        //public string _stateId { get; set; }
+        //public string StateId
+        //{
+        //    get { return _stateId;}
+        //    set { _stateId = id.ToString(); }
+        //}
+        public string StateId { get; set; }
         public string CountryId { get; set; }
         public string StateName { get; set; }
         
-        
+        [NotMapped]
         public virtual Country Country { get; set; }
     }
 }

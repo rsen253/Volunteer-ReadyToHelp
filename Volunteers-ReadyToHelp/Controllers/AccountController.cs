@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Volunteers_ReadyToHelp.Models;
+using System.Collections.Generic;
+using Volunteers_ReadyToHelp.ViewModels;
 
 namespace Volunteers_ReadyToHelp.Controllers
 {
@@ -139,19 +141,29 @@ namespace Volunteers_ReadyToHelp.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            List<Country> allCountry = new List<Country>();
+            List<State> allState = new List<State>();
+            using (ApplicationDbContext dbContext = new ApplicationDbContext())
+            {
+                allCountry = dbContext.Country.OrderBy(a => a.CountryName).ToList();
+            }
+            ViewBag.CountryId = new SelectList(allCountry, "CountryId", "CountryName");
+            ViewBag.StateId = new SelectList(allState, "StateId", "StateName");
             return View();
         }
+        
+        
 
         //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegistrationViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Username, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = model.DOB, CountryId = model.CountryId, StateId = model.StateId };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

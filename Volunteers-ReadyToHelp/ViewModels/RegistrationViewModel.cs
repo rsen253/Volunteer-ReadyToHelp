@@ -29,16 +29,14 @@ namespace Volunteers_ReadyToHelp.ViewModels
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-        [Display(Name= "Mobile Number")]
-        [RegularExpression("[0-9]{10}")]
-        public string Mobile { get; set; }
+        //[Display(Name= "Mobile Number")]
+        //[RegularExpression("[0-9]{10}")]
+        //public string Mobile { get; set; }
         [Required]
         public DateTime DOB { get; set; }
-        [Required]
         [Display(Name= "Country")]
-        public int CountryId { get; set; }
-        [Required]
+        public string CountryId { get; set; }
         [Display(Name = "State")]
-        public int StateId { get; set; }
+        public string StateId { get; set; }
     }
 }
