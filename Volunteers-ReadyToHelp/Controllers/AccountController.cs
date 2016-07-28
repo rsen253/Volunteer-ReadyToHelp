@@ -11,12 +11,15 @@ using Microsoft.Owin.Security;
 using Volunteers_ReadyToHelp.Models;
 using System.Collections.Generic;
 using Volunteers_ReadyToHelp.ViewModels;
+using Facebook;
 
 namespace Volunteers_ReadyToHelp.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        
+       
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -75,7 +78,16 @@ namespace Volunteers_ReadyToHelp.Controllers
                 return View(model);
             }
 
+            Session["profilePicture"] = "";
+
             // This doesn't count login failures towards account lockout
+            
+            //if email is conformed only thaen use can login
+            var user = UserManager.FindByEmail(model.Email);
+            if (user!= null && !UserManager.IsEmailConfirmed(user.Id))
+            {
+                return RedirectToAction("EmailNotConfirmed", new { userId = user.Id.ToString() });
+            }
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
@@ -88,7 +100,7 @@ namespace Volunteers_ReadyToHelp.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Username or Password is incorrect");
                     return View(model);
             }
         }
@@ -163,25 +175,33 @@ namespace Volunteers_ReadyToHelp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Username, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = model.DOB, CountryId = model.CountryId, StateId = model.StateId };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = model.DOB, CountryId = model.CountryId, StateId = model.StateId };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    Session["profilePicture"] = model.Email;
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    //return RedirectToAction("Index", "Home");
+                    return RedirectToAction("CheckEmailForNewAccount");
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult CheckEmailForNewAccount()
+        {
+            return View();
         }
 
         //
@@ -193,8 +213,13 @@ namespace Volunteers_ReadyToHelp.Controllers
             {
                 return View("Error");
             }
+            Session["profilePicture"] = "";
+            //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            var user = UserManager.FindById(userId);
+            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            //return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            return RedirectToAction("Index","Home");
         }
 
         //
@@ -223,10 +248,10 @@ namespace Volunteers_ReadyToHelp.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account", new { FirstName = user.FirstName,  });
             }
 
             // If we got this far, something failed, redisplay form
@@ -340,8 +365,18 @@ namespace Volunteers_ReadyToHelp.Controllers
                 return RedirectToAction("Login");
             }
 
+            var identity = AuthenticationManager.GetExternalIdentity(DefaultAuthenticationTypes.ExternalCookie);
+            var accessToken = identity.FindFirstValue("FacebookAccessToken");
+            var fb = new FacebookClient(accessToken);
+            dynamic myInfo = fb.Get("/me?fields=email,first_name,last_name,gender,picture,age_range,locale,link,timezone"); // specify the email field
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+            //string value = myInfo.email;
+            //string firstname = myInfo.first_name;
+            //string lastname = myInfo.last_name;
+            //string email = myInfo.email;
+            //string picture = myInfo.picture.data.url;
+            Session["profilePicture"] = myInfo.picture.data.url;
             switch (result)
             {
                 case SignInStatus.Success:
@@ -355,7 +390,22 @@ namespace Volunteers_ReadyToHelp.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    //var a = new ExternalLoginConfirmationViewModel
+                    //                            {
+                    //                                Email = myInfo.email,
+                    //                                FirstName = myInfo.first_name,
+                    //                                LastName = myInfo.last_name,
+                    //                                ProfilePicture = myInfo.picture,
+                    //                                Link = myInfo.link
+                    //                            };
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel 
+                                                {
+                                                    Email = myInfo.email,
+                                                    FirstName = myInfo.first_name,
+                                                    LastName = myInfo.last_name,
+                                                    ProfilePicture = myInfo.picture.data.url,
+                                                    Link = myInfo.link
+                                                });
             }
         }
 
@@ -379,7 +429,13 @@ namespace Volunteers_ReadyToHelp.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { 
+                                                    UserName = model.Email, 
+                                                    Email = model.Email,
+                                                    FirstName = model.FirstName,
+                                                    LastName = model.LastName,
+                                                    EmailConfirmed = true
+                                               };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -411,6 +467,7 @@ namespace Volunteers_ReadyToHelp.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session["profilePicture"] = null;
             return RedirectToAction("Index", "Home");
         }
 
@@ -421,7 +478,24 @@ namespace Volunteers_ReadyToHelp.Controllers
         {
             return View();
         }
-
+        
+        public async Task<ActionResult> Profile()
+        {
+            var a = Session["profilePicture"];
+            var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            return View();
+        }
+        [AllowAnonymous]
+        public ActionResult EmailNotConfirmed(ExternalLoginConfirmationViewModel model, string userId)
+        {
+            var user = UserManager.FindById(userId);
+            model.Email = user.Email;
+            model.FirstName = user.FirstName;
+            
+            
+            return View(model);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

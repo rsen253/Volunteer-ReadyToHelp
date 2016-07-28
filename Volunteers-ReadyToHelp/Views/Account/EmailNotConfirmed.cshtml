@@ -1,0 +1,20 @@
+﻿@model Volunteers_ReadyToHelp.Models.ExternalLoginConfirmationViewModel
+
+<section class="email-not-confirmed">
+    <div class="container text-center">
+        <div class="row">
+            <h4 class="text-danger"><b>@Model.FirstName </b>,Your Email address has not verified yet. Please check your email <b>@Model.Email</b></h4>
+            <img src="http://odnoklassniki2.groupsite.com/galleries/photo/274270/dl/original/sad-face-animated-gif-i13.gif?1385664094" alt="sad smiley" />
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            $(".navbar").css("background", "#4c726f");
+        });
+    </script>
+}
+
+

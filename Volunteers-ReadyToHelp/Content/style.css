@@ -205,7 +205,7 @@ header .navbar-brand {
 .mission,
 .recent-events,
 .our-work,
-.testimonial,
+.testimonial
 footer{
     padding-top: 3%;
 }
@@ -521,6 +521,27 @@ border: 3px solid #f5f5f5;
     width: 50%;
     height: 56px;
     font-size: 20px;
+}
+.confirm-email{
+    padding-top: 8%;
+}
+.confirm-email .img-tick{
+    max-width: none;
+    height: 160px;
+    width: 160px;
+}
+.email-not-confirmed,
+.forgot-password-Confirm,
+.reset-password,
+.reset-confirm-password,
+.forgot-password,
+.manage-profile{
+    padding-top: 12%;
+}
+.email-not-confirmed img{
+    height: 200px;
+    width: 200px;
+    padding-bottom: 15px;
 }
 @media only screen and (max-width: 999px) {
     body {

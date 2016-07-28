@@ -2,17 +2,26 @@
 @if (Request.IsAuthenticated)
 {
     <li>
-        @*<a href="@Url.Action("Index","Manage")">
-            <img class="img-circle" src="~/images/testimonial-johnb.jpg" style="height:50px;width:50px;" alt="Alternate Text" />
-        </a>*@
-        @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+
+        @if (@Session["profilePicture"].ToString().IndexOf("http") != -1)
+        {
+            <a href="@Url.Action("Profile","Account")">
+                <img class="img-circle" src="@Session["profilePicture"]" style="height:50px;width:50px;margin-top:-14px" alt="Alternate Text" />
+            </a>
+        }
+        else
+        {
+            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Profile", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
+        }
+        @**@
     </li>
-    <li>@Html.ActionLink("LogOff","LogOff","Account")</li>
+    <li>@Html.ActionLink("LogOff", "LogOff", "Account")</li>
+
 }
 else
 {
-    
-        <li>@Html.ActionLink("Join", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Sign In", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    
+
+    <li>@Html.ActionLink("Join", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+    <li>@Html.ActionLink("Sign In", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+
 }

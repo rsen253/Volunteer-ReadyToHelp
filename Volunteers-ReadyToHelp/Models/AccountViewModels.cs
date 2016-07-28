@@ -8,6 +8,16 @@ namespace Volunteers_ReadyToHelp.Models
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+        public string Link { get; set; }
+        public string ProfilePicture { get; set; }
+        //public string Age { get; set; }
     }
 
     public class ExternalLoginListViewModel
@@ -108,5 +118,7 @@ namespace Volunteers_ReadyToHelp.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        public string FirstName { get; set; }
     }
 }

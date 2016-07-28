@@ -14,9 +14,9 @@ namespace Volunteers_ReadyToHelp.ViewModels
         public string FirstName { get; set; }
         [Display(Name= "Last Name")]
         public string LastName { get; set; }
-        [Required]
-        [Display(Name= "Username")]
-        public string Username { get; set; }
+        //[Required]
+        //[Display(Name= "Username")]
+        //public string Username { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; }
@@ -33,7 +33,7 @@ namespace Volunteers_ReadyToHelp.ViewModels
         //[RegularExpression("[0-9]{10}")]
         //public string Mobile { get; set; }
         [Required]
-        public DateTime DOB { get; set; }
+        public string DOB { get; set; }
         [Display(Name= "Country")]
         public string CountryId { get; set; }
         [Display(Name = "State")]

@@ -6,6 +6,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Volunteers_ReadyToHelp.Models;
+using Microsoft.Owin.Security.Facebook;
+using System.Threading.Tasks;
 
 namespace Volunteers_ReadyToHelp
 {
@@ -54,9 +56,35 @@ namespace Volunteers_ReadyToHelp
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            app.UseFacebookAuthentication(
-               appId: "143402289402466",
-               appSecret: "ab4590049ccd655c951ee579af7ef6df");
+            //app.UseFacebookAuthentication(
+            //   appId: "143402289402466",
+            //   appSecret: "ab4590049ccd655c951ee579af7ef6df");
+
+            //var options = new FacebookAuthenticationOptions()
+            //{
+            //    AppId = "143402289402466",
+            //    AppSecret = "ab4590049ccd655c951ee579af7ef6df",
+            //    //Provider = "facebookProvider"
+            //};
+            //options.Scope.Add("email");
+            ////options.Scope.Add("user_friends");
+            //options.Scope.Add("public_profile");
+            //app.UseFacebookAuthentication(options);
+
+            app.UseFacebookAuthentication(new FacebookAuthenticationOptions
+            {
+                AppId = "143402289402466",
+                AppSecret = "ab4590049ccd655c951ee579af7ef6df",
+                Scope = { "email" },
+                Provider = new FacebookAuthenticationProvider
+                {
+                    OnAuthenticated = context =>
+                    {
+                        context.Identity.AddClaim(new System.Security.Claims.Claim("FacebookAccessToken", context.AccessToken));
+                        return Task.FromResult(true);
+                    }
+                }
+            });
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

@@ -1,0 +1,72 @@
+﻿<section class="container profile">
+    <div class="row">
+        <div class="col-sm-3">
+            @{
+                var a =  Session["profilePicture"];
+                var b = a;  
+            }
+            
+            @if (Session["profilePicture"] != "")
+            {
+                <img src="@Session["profilePicture"]" class="img-responsive" style="height:170px;width:170px;">
+            }
+            else
+            {
+                <img src="http://placeskull.com/170/170/4cc417" class="img-responsive" style="height:170px;width:170px;">
+            }
+            
+        </div>
+        <div class="col-sm-7 text-center">
+            <h3>Nick T Tompkins</h3>
+            <h3>Points : 3</h3>
+            <span>Badges: <i class="fa fa-envira" style="color:#00ff21" aria-hidden="true"></i> <i class="fa fa-gitlab" style="color:#ff6a00" aria-hidden="true"></i><i class="fa fa-pied-piper" style="color:#4800ff" aria-hidden="true"></i><i class="fa fa-universal-access" style="color:#ff00dc" aria-hidden="true"></i></span>
+        </div>
+        <div class="col-md-2 text-center">
+            
+            <a href="@Url.Action("Index", "Manage")" class="btn btn-warning">
+                <i class="fa fa-cog fa-5x"></i>
+            </a>       
+        </div>
+    </div>
+    <div class="row attended-events">
+        <div class="col-sm-4">
+            <h2>Upcoming Events</h2>
+            <ul class="nav">
+                <li role="presentation"><a href="#">Football Cardinals Crew, You never had this much fun!!</a></li>
+                <li role="presentation"><a href="#">Become a dog walker!</a></li>
+                <li role="presentation"><a href="#">Pet Therapy Volunteer</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-4" style="border-left: 1px solid #6ed3cf;border-right: 1px solid #6ed3cf">
+            <h2>Attended Events</h2>
+            <ul class="nav">
+                <li role="presentation"><a href="#">Join NJ Teens Who Love to Volunteer!</a></li>
+                <li role="presentation"><a href="#">Canine Companion Friendly Visitor Needed !!!!!!</a></li>
+                <li role="presentation"><a href="#">Grace Hospice Looking for Pet Therapy Volunteers</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-4">
+            <h2>Added Events</h2>
+            <ul class="nav">
+                <li role="presentation"><a href="#">Join NJ Teens Who Love to Volunteer!</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row user-details">
+        <div class="col-sm-8">
+            <h2>About Me</h2>
+            <p>Bacon ipsum dolor amet landjaeger ham beef ribs shank jerky. Tail kielbasa andouille bresaola kevin. Brisket drumstick sausage ham hock leberkas pork loin rump pork belly prosciutto pastrami bacon spare ribs. Chicken kielbasa alcatra andouille. Picanha bacon venison capicola. Bresaola ham hock picanha rump pork loin boudin, turkey filet mignon kielbasa tenderloin kevin. Ball tip spare ribs prosciutto, meatball picanha shank beef ribs meatloaf.</p>
+        </div>
+        <div class="col-md-4 new-post">
+            <a class="btn btn-default btn-new-event" href="newevent.html" role="button">Add new event</a>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+    $(function () {
+        $(".navbar").css("background", "#4c726f");
+    });
+    </script>
+}
