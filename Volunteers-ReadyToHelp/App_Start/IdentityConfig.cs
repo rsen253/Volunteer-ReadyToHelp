@@ -12,6 +12,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Volunteers_ReadyToHelp.Models;
 using System.Net.Mail;
+using Twilio;
+using System.Configuration;
 
 namespace Volunteers_ReadyToHelp
 {
@@ -39,7 +41,7 @@ namespace Volunteers_ReadyToHelp
                 return Task.FromResult(0);
                 throw;
             }
-            
+
         }
     }
 
@@ -48,6 +50,22 @@ namespace Volunteers_ReadyToHelp
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your SMS service here to send a text message.
+            //adding twilow service
+
+            var Twilio = new TwilioRestClient(
+                    ConfigurationManager.AppSettings["TwilioSid"],
+                    ConfigurationManager.AppSettings["TwilioToken"]
+                );
+            var result = Twilio.SendMessage(
+        ConfigurationManager.AppSettings["TwilioFromPhone"],
+        "+91" + message.Destination, message.Body
+    );
+            if (result.RestException != null)
+            {
+                var error = result.RestException.Message;
+            }
+            //Trace.TraceInformation(result.Status);
+
             return Task.FromResult(0);
         }
     }
@@ -60,7 +78,7 @@ namespace Volunteers_ReadyToHelp
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
@@ -73,17 +91,17 @@ namespace Volunteers_ReadyToHelp
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
+                RequiredLength = 8,
                 RequireNonLetterOrDigit = true,
                 RequireDigit = true,
                 RequireLowercase = true,
-                RequireUppercase = true,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;
-            manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            manager.MaxFailedAccessAttemptsBeforeLockout = 5;
+            manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(1);
+            manager.MaxFailedAccessAttemptsBeforeLockout = 2;
 
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug it in here.
@@ -101,7 +119,7 @@ namespace Volunteers_ReadyToHelp
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
+                manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;

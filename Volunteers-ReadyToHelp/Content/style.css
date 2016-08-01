@@ -535,8 +535,12 @@ border: 3px solid #f5f5f5;
 .reset-password,
 .reset-confirm-password,
 .forgot-password,
-.manage-profile{
+.manage-profile,
+.choose-twostepVerification-provider{
     padding-top: 12%;
+}
+.choose-twostepVerification-provider{
+    padding-bottom:16px;
 }
 .email-not-confirmed img{
     height: 200px;

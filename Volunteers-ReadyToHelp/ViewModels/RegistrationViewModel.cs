@@ -34,8 +34,10 @@ namespace Volunteers_ReadyToHelp.ViewModels
         //public string Mobile { get; set; }
         [Required]
         public string DOB { get; set; }
+        [Required]
         [Display(Name= "Country")]
         public string CountryId { get; set; }
+        [Required]
         [Display(Name = "State")]
         public string StateId { get; set; }
     }

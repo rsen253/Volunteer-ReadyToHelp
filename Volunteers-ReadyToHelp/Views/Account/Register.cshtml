@@ -1,4 +1,5 @@
-﻿@model Volunteers_ReadyToHelp.ViewModels.RegistrationViewModel
+﻿@using reCAPTCHA.MVC
+@model Volunteers_ReadyToHelp.ViewModels.RegistrationViewModel
 
 <div class="container signUp">
     <div class="row">
@@ -8,7 +9,7 @@
                 @Html.AntiForgeryToken()
 
                 <div class="form-horizontal">
-                    
+                    k
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-4" })
@@ -81,6 +82,23 @@
                             @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    
+                    <div class="form-group">
+                        <div class="g-recaptcha col-md-5 col-md-offset-4" data-sitekey="6Le4SiYTAAAAAF4pWVRRq3235Qbpr9oLsq5IlUNR" >
+                        </div>
+                        <div class="col-md-3">@ViewBag.caPATCHA</div>
+                    </div>
+                    
+                 
+                    
+
+                    @*<div class="form-group">
+                        
+                        <div class="col-md-offset-4">
+                            @Html.Recaptcha()
+                            @Html.ValidationMessage("ReCaptcha")
+                        </div>
+                    </div>*@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-8">
@@ -96,6 +114,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <script type="text/javascript">
         $(function () {
             $(".navbar").css("background", "#4c726f");

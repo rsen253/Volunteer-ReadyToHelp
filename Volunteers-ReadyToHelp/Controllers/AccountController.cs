@@ -12,6 +12,9 @@ using Volunteers_ReadyToHelp.Models;
 using System.Collections.Generic;
 using Volunteers_ReadyToHelp.ViewModels;
 using Facebook;
+using reCAPTCHA.MVC;
+using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace Volunteers_ReadyToHelp.Controllers
 {
@@ -89,7 +92,7 @@ namespace Volunteers_ReadyToHelp.Controllers
                 return RedirectToAction("EmailNotConfirmed", new { userId = user.Id.ToString() });
             }
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -173,10 +176,18 @@ namespace Volunteers_ReadyToHelp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegistrationViewModel model)
         {
-            if (ModelState.IsValid)
+            var response = Request["g-recaptcha-response"];
+            string secretKey = "6Le4SiYTAAAAAATdPEaX3HCQuzV7G35_h929kMaf";
+            var client = new WebClient();
+            var captchaResult = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secretKey, response));
+            var obj = JObject.Parse(captchaResult);
+            var status = (bool)obj.SelectToken("success");
+            ViewBag.caPATCHA = status ? "validation success" : "validation failed";
+            if (ModelState.IsValid && status == true)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = model.DOB, CountryId = model.CountryId, StateId = model.StateId };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     Session["profilePicture"] = model.Email;

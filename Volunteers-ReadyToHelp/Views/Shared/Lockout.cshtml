@@ -1,10 +1,19 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
-@{
-    ViewBag.Title = "Locked Out";
-}
+<section class="container choose-twostepVerification-provider">
+    <hgroup>
+        <h1 class="text-danger">Locked out.</h1>
+        <h2 class="text-danger">This account has been locked out, please try again later.</h2>
+    </hgroup>
 
-<hgroup>
-    <h1 class="text-danger">Locked out.</h1>
-    <h2 class="text-danger">This account has been locked out, please try again later.</h2>
-</hgroup>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            $(".navbar").css("background", "#4c726f");
+            $("#SelectedProvider").addClass("form-control");
+        });
+    </script>
+}
