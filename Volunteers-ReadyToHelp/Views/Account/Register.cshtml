@@ -1,15 +1,15 @@
-﻿@using reCAPTCHA.MVC
-@model Volunteers_ReadyToHelp.ViewModels.RegistrationViewModel
+﻿@model Volunteers_ReadyToHelp.ViewModels.RegistrationViewModel
 
 <div class="container signUp">
     <div class="row">
         <div class="col-md-6 col-md-offset-2 text-center">
-            @using (Html.BeginForm())
+
+          
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
-
+    
                 <div class="form-horizontal">
-                    k
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-4" })
@@ -84,22 +84,27 @@
                     </div>
                     
                     <div class="form-group">
+                        @Html.LabelFor(model => model.RoleType, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8 text-left">
+                            Individual:   @Html.RadioButtonFor(model => model.RoleType, "Individual", new { htmlAttributes = new { @class = "form-control" } })
+                            Organization: @Html.RadioButtonFor(model => model.RoleType, "Organization", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RoleType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>                   
+
+                    <div class="form-group">
+                        <label for="file" class="col-md-4">Upload Image:</label>
+                        <div class="col-md-8">
+                            <input type="file" name="userImage" id="userImage" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <div class="g-recaptcha col-md-5 col-md-offset-4" data-sitekey="6Le4SiYTAAAAAF4pWVRRq3235Qbpr9oLsq5IlUNR" >
                         </div>
-                        <div class="col-md-3">@ViewBag.caPATCHA</div>
+                        <div class="col-md-3 text-danger">@ViewBag.reCAPTCHA</div>
                     </div>
                     
-                 
-                    
-
-                    @*<div class="form-group">
-                        
-                        <div class="col-md-offset-4">
-                            @Html.Recaptcha()
-                            @Html.ValidationMessage("ReCaptcha")
-                        </div>
-                    </div>*@
-
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-8">
                             <input type="submit" value="Sign up" class="btn btn-default" />

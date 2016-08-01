@@ -7,13 +7,13 @@ namespace Volunteers_ReadyToHelp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddCountryState : IMigrationMetadata
+    public sealed partial class ModifyAvatar : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddCountryState));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ModifyAvatar));
         
         string IMigrationMetadata.Id
         {
-            get { return "201607220913049_AddCountryState"; }
+            get { return "201608011225479_ModifyAvatar"; }
         }
         
         string IMigrationMetadata.Source

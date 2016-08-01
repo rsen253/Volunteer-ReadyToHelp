@@ -185,28 +185,21 @@
     <Compile Include="Migrations\201607211248068_InitialCreate.Designer.cs">
       <DependentUpon>201607211248068_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201607220817032_ModifiedUserTable.cs" />
-    <Compile Include="Migrations\201607220817032_ModifiedUserTable.Designer.cs">
-      <DependentUpon>201607220817032_ModifiedUserTable.cs</DependentUpon>
+    <Compile Include="Migrations\201608011023392_Delete.cs" />
+    <Compile Include="Migrations\201608011023392_Delete.Designer.cs">
+      <DependentUpon>201608011023392_Delete.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201607220913049_AddCountryState.cs" />
-    <Compile Include="Migrations\201607220913049_AddCountryState.Designer.cs">
-      <DependentUpon>201607220913049_AddCountryState.cs</DependentUpon>
+    <Compile Include="Migrations\201608011025316_AddAvatarTable.cs" />
+    <Compile Include="Migrations\201608011025316_AddAvatarTable.Designer.cs">
+      <DependentUpon>201608011025316_AddAvatarTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201607220923088_ModifyStateColumn.cs" />
-    <Compile Include="Migrations\201607220923088_ModifyStateColumn.Designer.cs">
-      <DependentUpon>201607220923088_ModifyStateColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607251249142_modifiedDatatypeinUserField.cs" />
-    <Compile Include="Migrations\201607251249142_modifiedDatatypeinUserField.Designer.cs">
-      <DependentUpon>201607251249142_modifiedDatatypeinUserField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607260630113_MakeDobString.cs" />
-    <Compile Include="Migrations\201607260630113_MakeDobString.Designer.cs">
-      <DependentUpon>201607260630113_MakeDobString.cs</DependentUpon>
+    <Compile Include="Migrations\201608011225479_ModifyAvatar.cs" />
+    <Compile Include="Migrations\201608011225479_ModifyAvatar.Designer.cs">
+      <DependentUpon>201608011225479_ModifyAvatar.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Avatar.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -216,7 +209,9 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CountryStateViewModel.cs" />
     <Compile Include="ViewModels\LoginUserViewModel.cs" />
+    <Compile Include="ViewModels\ProfileViewModel.cs" />
     <Compile Include="ViewModels\RegistrationViewModel.cs" />
+    <Compile Include="ViewModels\RoleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />
@@ -323,6 +318,7 @@
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Account\CheckEmailForNewAccount.cshtml" />
     <Content Include="Views\Account\EmailNotConfirmed.cshtml" />
+    <Content Include="Views\Admin\AddRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -338,20 +334,14 @@
     <EmbeddedResource Include="Migrations\201607211248068_InitialCreate.resx">
       <DependentUpon>201607211248068_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607220817032_ModifiedUserTable.resx">
-      <DependentUpon>201607220817032_ModifiedUserTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608011023392_Delete.resx">
+      <DependentUpon>201608011023392_Delete.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607220913049_AddCountryState.resx">
-      <DependentUpon>201607220913049_AddCountryState.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608011025316_AddAvatarTable.resx">
+      <DependentUpon>201608011025316_AddAvatarTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607220923088_ModifyStateColumn.resx">
-      <DependentUpon>201607220923088_ModifyStateColumn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607251249142_modifiedDatatypeinUserField.resx">
-      <DependentUpon>201607251249142_modifiedDatatypeinUserField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607260630113_MakeDobString.resx">
-      <DependentUpon>201607260630113_MakeDobString.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608011225479_ModifyAvatar.resx">
+      <DependentUpon>201608011225479_ModifyAvatar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

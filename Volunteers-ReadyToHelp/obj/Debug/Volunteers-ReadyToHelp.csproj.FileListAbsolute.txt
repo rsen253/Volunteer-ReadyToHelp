@@ -110,11 +110,6 @@ M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers-ReadyToHel
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers-ReadyToHelp.pdb
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.InitialCreate.resources
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers-ReadyToHelp.csproj.GenerateResource.Cache
-M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.ModifiedUserTable.resources
-M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.AddCountryState.resources
-M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.ModifyStateColumn.resources
-M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.modifiedDatatypeinUserField.resources
-M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.MakeDobString.resources
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\bin\Facebook.dll
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\bin\Facebook.xml
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\bin\RestSharp.dll
@@ -123,3 +118,6 @@ M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\bin\RestSharp.xml
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\bin\Twilio.Api.pdb
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\bin\Twilio.Api.xml
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\bin\reCAPTCHA.MVC.dll
+M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.Delete.resources
+M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.AddAvatarTable.resources
+M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.ModifyAvatar.resources

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Volunteers_ReadyToHelp.Models;
@@ -15,6 +17,28 @@ namespace Volunteers_ReadyToHelp.Controllers
         public State state = new State();
         // Country Country = new Country();
         // GET: Admin
+
+        public ActionResult AddRole()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddRole(RoleViewModel roleViewModel)
+        {
+            var roles = ApplicationRoleManager.Create(HttpContext.GetOwinContext());
+            if (!await roles.RoleExistsAsync(roleViewModel.RoleName))
+            {
+                await roles.CreateAsync(new IdentityRole { Name = roleViewModel.RoleName});
+                @ViewBag.AddRole = "New role added successfully";
+            }
+            else
+            {
+                @ViewBag.AddRole = "Role Already Exists";
+            }
+            return View();
+        }
         public ActionResult Index()
         {
             return RedirectToAction("AddCountry");

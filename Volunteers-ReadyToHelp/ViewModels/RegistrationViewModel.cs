@@ -40,5 +40,12 @@ namespace Volunteers_ReadyToHelp.ViewModels
         [Required]
         [Display(Name = "State")]
         public string StateId { get; set; }
+        [Required]
+        [Display(Name = "Role Type")]
+        public string RoleType { get; set; }
+        public string RoleId { get; set; }
+        [Display(Name= "User Avatar")]
+        public byte[] Avatar { get; set; }
+        public string AvatarId { get; set; }
     }
 }

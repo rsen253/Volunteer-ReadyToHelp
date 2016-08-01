@@ -3,16 +3,16 @@ namespace Volunteers_ReadyToHelp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class modifiedDatatypeinUserField : DbMigration
+    public partial class ModifyAvatar : DbMigration
     {
         public override void Up()
         {
-            AlterColumn("dbo.AspNetUsers", "DateOfBirth", c => c.DateTime(nullable: false));
+            DropColumn("dbo.Avatars", "UserId");
         }
         
         public override void Down()
         {
-            AlterColumn("dbo.AspNetUsers", "DateOfBirth", c => c.String());
+            AddColumn("dbo.Avatars", "UserId", c => c.String());
         }
     }
 }

@@ -7,13 +7,13 @@ namespace Volunteers_ReadyToHelp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class modifiedDatatypeinUserField : IMigrationMetadata
+    public sealed partial class Delete : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(modifiedDatatypeinUserField));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Delete));
         
         string IMigrationMetadata.Id
         {
-            get { return "201607251249142_modifiedDatatypeinUserField"; }
+            get { return "201608011023392_Delete"; }
         }
         
         string IMigrationMetadata.Source

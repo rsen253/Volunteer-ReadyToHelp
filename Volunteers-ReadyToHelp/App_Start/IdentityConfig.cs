@@ -144,4 +144,19 @@ namespace Volunteers_ReadyToHelp
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
     }
+
+    //Configure the application for role manager
+    public class ApplicationRoleManager : RoleManager<IdentityRole>
+    {
+        public ApplicationRoleManager(RoleStore<IdentityRole> store)
+            : base(store)
+        {
+        }
+
+        public static ApplicationRoleManager Create(IOwinContext context)
+        {
+            var roleStore = new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>());
+            return new ApplicationRoleManager(roleStore);
+        }
+    }
 }

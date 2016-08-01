@@ -28,6 +28,7 @@ namespace Volunteers_ReadyToHelp.Models
         //createing custome table using entity framework
         public DbSet<Country> Country { get; set; }
         public DbSet<State> State { get; set; }
+        public DbSet<Avatar> Avatar { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

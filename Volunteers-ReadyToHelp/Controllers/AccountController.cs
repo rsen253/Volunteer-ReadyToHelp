@@ -153,6 +153,7 @@ namespace Volunteers_ReadyToHelp.Controllers
 
         //
         // GET: /Account/Register
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult Register()
         {
@@ -174,7 +175,7 @@ namespace Volunteers_ReadyToHelp.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegistrationViewModel model)
+        public async Task<ActionResult> Register(RegistrationViewModel model, HttpPostedFileBase userImage)
         {
             var response = Request["g-recaptcha-response"];
             string secretKey = "6Le4SiYTAAAAAATdPEaX3HCQuzV7G35_h929kMaf";
@@ -182,10 +183,52 @@ namespace Volunteers_ReadyToHelp.Controllers
             var captchaResult = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secretKey, response));
             var obj = JObject.Parse(captchaResult);
             var status = (bool)obj.SelectToken("success");
-            ViewBag.caPATCHA = status ? "validation success" : "validation failed";
-            if (ModelState.IsValid && status == true)
+            List<Country> allCountry = new List<Country>();
+            List<State> allState = new List<State>();
+            using (ApplicationDbContext dbContext = new ApplicationDbContext())
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = model.DOB, CountryId = model.CountryId, StateId = model.StateId };
+                allCountry = dbContext.Country.OrderBy(a => a.CountryName).ToList();
+            }
+            ViewBag.CountryId = new SelectList(allCountry, "CountryId", "CountryName");
+            ViewBag.StateId = new SelectList(allState, "StateId", "StateName");
+            //ViewBag.caPATCHA = status ? "validation success" : "validation failed";
+            if (ModelState.IsValid)
+            {
+                
+                if (status == false)
+                {
+                    ViewBag.reCAPTCHA = "Captcha is invalid";
+                    return View();
+                }
+                using (ApplicationDbContext dbContext = new ApplicationDbContext())
+                {
+                    var roleId = (from r in dbContext.Roles
+                                  where r.Name.Equals(model.RoleType)
+                                  select r
+                                     );
+                    foreach (var item in roleId)
+                    {
+                        model.RoleId = item.Id;
+                    }
+                    if (userImage != null)
+                    {
+                        Avatar avatarModel = new Avatar();
+                        avatarModel.AvatarData = new byte[userImage.ContentLength];
+                        userImage.InputStream.Read(avatarModel.AvatarData, 0, userImage.ContentLength);
+                        Guid id = Guid.NewGuid();
+                        avatarModel.AvatarId = id.ToString();
+                        model.AvatarId = avatarModel.AvatarId;
+                        dbContext.Avatar.Add(avatarModel);
+                        dbContext.SaveChanges();
+                    }
+                    else
+                    {
+                        model.AvatarId = null;
+                    }
+                }
+                
+
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = model.DOB, CountryId = model.CountryId, StateId = model.StateId, RoleId = model.RoleId, AvatarId = model.AvatarId };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -204,7 +247,7 @@ namespace Volunteers_ReadyToHelp.Controllers
                 }
                 AddErrors(result);
             }
-
+            
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -490,12 +533,18 @@ namespace Volunteers_ReadyToHelp.Controllers
             return View();
         }
         
-        public async Task<ActionResult> Profile()
+        public async Task<ActionResult> Profile(ProfileViewModel model)
         {
             var a = Session["profilePicture"];
             var info = await AuthenticationManager.GetExternalLoginInfoAsync();
             var user = UserManager.FindById(User.Identity.GetUserId());
-            return View();
+            ApplicationDbContext dbContext = new ApplicationDbContext();
+            var userImage = (from u in dbContext.Users where u.AvatarId.Equals(user.AvatarId)
+                             join av in dbContext.Avatar
+                             on u.AvatarId equals av.AvatarId 
+                             select av
+                            ).ToList();
+            return View(model);
         }
         [AllowAnonymous]
         public ActionResult EmailNotConfirmed(ExternalLoginConfirmationViewModel model, string userId)
