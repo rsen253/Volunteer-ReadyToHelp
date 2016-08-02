@@ -7,13 +7,13 @@ namespace Volunteers_ReadyToHelp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ModifyAvatar : IMigrationMetadata
+    public sealed partial class AddedNewTableForPoint : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ModifyAvatar));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedNewTableForPoint));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608011225479_ModifyAvatar"; }
+            get { return "201608021407563_AddedNewTableForPoint"; }
         }
         
         string IMigrationMetadata.Source

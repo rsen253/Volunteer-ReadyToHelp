@@ -29,9 +29,25 @@ namespace Volunteers_ReadyToHelp.Models
         public DbSet<Country> Country { get; set; }
         public DbSet<State> State { get; set; }
         public DbSet<Avatar> Avatar { get; set; }
+        public DbSet<Organization> Organization { get; set; }
+        public DbSet<OrganizationState> OrganizationState { get; set; }
+        public DbSet<Point> Point { get; set; }
+        public DbSet<UserPoint> UserPoint { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+
+        //    ////modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole");
+        //    ////modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogin");
+        //    ////modelBuilder.Entity<IdentityUser>().ToTable("User");
+        //    ////modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaim");
+        //    ////modelBuilder.Entity<IdentityRole>().ToTable("Role").Property(p => p.Id).HasColumnName("RoleId");
+        //    //modelBuilder.Entity<IdentityUser>().ToTable("Users");
+        //}
     }
 }

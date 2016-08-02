@@ -1,18 +1,31 @@
 ﻿@using Microsoft.AspNet.Identity
+
+@{
+    var a = Session["profilePicture"];
+}
 @if (Request.IsAuthenticated)
 {
     <li>
-
+        
         @if (@Session["profilePicture"].ToString().IndexOf("http") != -1)
         {
-            <a href="@Url.Action("Profile","Account")">
+
+            <a href="@Url.Action("UserProfile", "Account")">
                 <img class="img-circle" src="@Session["profilePicture"]" style="height:50px;width:50px;margin-top:-14px" alt="Alternate Text" />
             </a>
         }
-        else
+        else if (@Session["profilePicture"].ToString() == "No Image")
         {
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Profile", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
+            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "UserProfile", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
         }
+        else if (@Session["profilePicture"].ToString().IndexOf("http") == -1)
+        {
+            @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Profile", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+            <a href="@Url.Action("UserProfile", "Account")">
+                <img class="img-circle" src="@Session["profilePicture"]" style="height:50px;width:50px;margin-top:-14px" alt="Alternate Text" />
+            </a>
+        }
+        
         @**@
     </li>
     <li>@Html.ActionLink("LogOff", "LogOff", "Account")</li>

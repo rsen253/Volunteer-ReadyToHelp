@@ -1,5 +1,4 @@
 ﻿@model Volunteers_ReadyToHelp.ViewModels.RegistrationViewModel
-
 <div class="container signUp">
     <div class="row">
         <div class="col-md-6 col-md-offset-2 text-center">
@@ -94,15 +93,21 @@
 
                     <div class="form-group">
                         <label for="file" class="col-md-4">Upload Image:</label>
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <input type="file" name="userImage" id="userImage" />
+                            <p class="help-block text-danger">Image should not be more than 5 MB</p>
+                            <div class="col-md-2 text-danger">@ViewBag.InvalidImage</div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="g-recaptcha col-md-5 col-md-offset-4" data-sitekey="6Le4SiYTAAAAAF4pWVRRq3235Qbpr9oLsq5IlUNR" >
+                        @{
+                            var reCAPTCHApublicKey = System.Configuration.ConfigurationManager.AppSettings["reCaptchaPublicKey"];
+                        
+                        <div class="g-recaptcha col-md-5 col-md-offset-4" data-sitekey="@reCAPTCHApublicKey" >
                         </div>
                         <div class="col-md-3 text-danger">@ViewBag.reCAPTCHA</div>
+                        }
                     </div>
                     
                     <div class="form-group">

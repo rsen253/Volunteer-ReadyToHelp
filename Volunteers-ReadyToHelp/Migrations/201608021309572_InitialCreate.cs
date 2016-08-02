@@ -8,6 +8,59 @@ namespace Volunteers_ReadyToHelp.Migrations
         public override void Up()
         {
             CreateTable(
+                "dbo.Avatars",
+                c => new
+                    {
+                        AvatarId = c.String(nullable: false, maxLength: 128),
+                        AvatarData = c.Binary(),
+                    })
+                .PrimaryKey(t => t.AvatarId);
+            
+            CreateTable(
+                "dbo.Countries",
+                c => new
+                    {
+                        CountryId = c.String(nullable: false, maxLength: 128),
+                        CountryName = c.String(),
+                    })
+                .PrimaryKey(t => t.CountryId);
+            
+            CreateTable(
+                "dbo.States",
+                c => new
+                    {
+                        StateId = c.String(nullable: false, maxLength: 128),
+                        CountryId = c.String(maxLength: 128),
+                        StateName = c.String(),
+                    })
+                .PrimaryKey(t => t.StateId)
+                .ForeignKey("dbo.Countries", t => t.CountryId)
+                .Index(t => t.CountryId);
+            
+            CreateTable(
+                "dbo.Organizations",
+                c => new
+                    {
+                        OrganizationId = c.String(nullable: false, maxLength: 128),
+                        Name = c.String(),
+                        Description = c.String(),
+                        logoId = c.String(),
+                    })
+                .PrimaryKey(t => t.OrganizationId);
+            
+            CreateTable(
+                "dbo.OrganizationStates",
+                c => new
+                    {
+                        OrganizationId = c.String(nullable: false, maxLength: 128),
+                        MyProperty = c.Boolean(nullable: false),
+                        JoinDate = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.OrganizationId)
+                .ForeignKey("dbo.Organizations", t => t.OrganizationId)
+                .Index(t => t.OrganizationId);
+            
+            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -35,6 +88,13 @@ namespace Volunteers_ReadyToHelp.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
+                        FirstName = c.String(),
+                        LastName = c.String(),
+                        DateOfBirth = c.String(),
+                        CountryId = c.String(maxLength: 128),
+                        StateId = c.String(maxLength: 128),
+                        RoleId = c.String(),
+                        AvatarId = c.String(maxLength: 128),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -48,6 +108,12 @@ namespace Volunteers_ReadyToHelp.Migrations
                         UserName = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Avatars", t => t.AvatarId)
+                .ForeignKey("dbo.Countries", t => t.CountryId)
+                .ForeignKey("dbo.States", t => t.StateId)
+                .Index(t => t.CountryId)
+                .Index(t => t.StateId)
+                .Index(t => t.AvatarId)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
             
             CreateTable(
@@ -79,21 +145,36 @@ namespace Volunteers_ReadyToHelp.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.AspNetUsers", "StateId", "dbo.States");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUsers", "CountryId", "dbo.Countries");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUsers", "AvatarId", "dbo.Avatars");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.OrganizationStates", "OrganizationId", "dbo.Organizations");
+            DropForeignKey("dbo.States", "CountryId", "dbo.Countries");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.AspNetUsers", new[] { "AvatarId" });
+            DropIndex("dbo.AspNetUsers", new[] { "StateId" });
+            DropIndex("dbo.AspNetUsers", new[] { "CountryId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.OrganizationStates", new[] { "OrganizationId" });
+            DropIndex("dbo.States", new[] { "CountryId" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.OrganizationStates");
+            DropTable("dbo.Organizations");
+            DropTable("dbo.States");
+            DropTable("dbo.Countries");
+            DropTable("dbo.Avatars");
         }
     }
 }

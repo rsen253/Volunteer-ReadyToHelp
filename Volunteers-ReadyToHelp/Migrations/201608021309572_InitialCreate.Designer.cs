@@ -13,7 +13,7 @@ namespace Volunteers_ReadyToHelp.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201607211248068_InitialCreate"; }
+            get { return "201608021309572_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

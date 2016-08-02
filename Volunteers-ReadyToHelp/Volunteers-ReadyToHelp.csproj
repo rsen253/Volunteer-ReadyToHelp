@@ -181,21 +181,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201607211248068_InitialCreate.cs" />
-    <Compile Include="Migrations\201607211248068_InitialCreate.Designer.cs">
-      <DependentUpon>201607211248068_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201608021309572_InitialCreate.cs" />
+    <Compile Include="Migrations\201608021309572_InitialCreate.Designer.cs">
+      <DependentUpon>201608021309572_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608011023392_Delete.cs" />
-    <Compile Include="Migrations\201608011023392_Delete.Designer.cs">
-      <DependentUpon>201608011023392_Delete.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608011025316_AddAvatarTable.cs" />
-    <Compile Include="Migrations\201608011025316_AddAvatarTable.Designer.cs">
-      <DependentUpon>201608011025316_AddAvatarTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608011225479_ModifyAvatar.cs" />
-    <Compile Include="Migrations\201608011225479_ModifyAvatar.Designer.cs">
-      <DependentUpon>201608011225479_ModifyAvatar.cs</DependentUpon>
+    <Compile Include="Migrations\201608021407563_AddedNewTableForPoint.cs" />
+    <Compile Include="Migrations\201608021407563_AddedNewTableForPoint.Designer.cs">
+      <DependentUpon>201608021407563_AddedNewTableForPoint.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -203,8 +195,12 @@
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Organization.cs" />
+    <Compile Include="Models\OrganizationState.cs" />
+    <Compile Include="Models\Point.cs" />
     <Compile Include="Models\State.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CountryStateViewModel.cs" />
@@ -315,10 +311,11 @@
     <Content Include="Views\Home\ActivityDetails.cshtml" />
     <Content Include="Views\Admin\AddCountry.cshtml" />
     <Content Include="Views\Admin\AddState.cshtml" />
-    <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\Account\UserProfile.cshtml" />
     <Content Include="Views\Account\CheckEmailForNewAccount.cshtml" />
     <Content Include="Views\Account\EmailNotConfirmed.cshtml" />
     <Content Include="Views\Admin\AddRole.cshtml" />
+    <Content Include="Views\Account\Organization.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -331,17 +328,11 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607211248068_InitialCreate.resx">
-      <DependentUpon>201607211248068_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608021309572_InitialCreate.resx">
+      <DependentUpon>201608021309572_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608011023392_Delete.resx">
-      <DependentUpon>201608011023392_Delete.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608011025316_AddAvatarTable.resx">
-      <DependentUpon>201608011025316_AddAvatarTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608011225479_ModifyAvatar.resx">
-      <DependentUpon>201608011225479_ModifyAvatar.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608021407563_AddedNewTableForPoint.resx">
+      <DependentUpon>201608021407563_AddedNewTableForPoint.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

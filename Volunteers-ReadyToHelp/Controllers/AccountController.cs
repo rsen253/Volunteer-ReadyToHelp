@@ -15,6 +15,7 @@ using Facebook;
 using reCAPTCHA.MVC;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using System.Configuration;
 
 namespace Volunteers_ReadyToHelp.Controllers
 {
@@ -93,9 +94,15 @@ namespace Volunteers_ReadyToHelp.Controllers
             }
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
+            if (result == SignInStatus.Success)
+            {
+                var imgsrc = RetriveUserProfilePicture(user.Id);
+                Session["profilePicture"] = imgsrc;
+            }
             switch (result)
             {
                 case SignInStatus.Success:
+                    
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -178,7 +185,7 @@ namespace Volunteers_ReadyToHelp.Controllers
         public async Task<ActionResult> Register(RegistrationViewModel model, HttpPostedFileBase userImage)
         {
             var response = Request["g-recaptcha-response"];
-            string secretKey = "6Le4SiYTAAAAAATdPEaX3HCQuzV7G35_h929kMaf";
+            string secretKey = ConfigurationManager.AppSettings["reCaptchaSecretKey"];
             var client = new WebClient();
             var captchaResult = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secretKey, response));
             var obj = JObject.Parse(captchaResult);
@@ -192,63 +199,77 @@ namespace Volunteers_ReadyToHelp.Controllers
             ViewBag.CountryId = new SelectList(allCountry, "CountryId", "CountryName");
             ViewBag.StateId = new SelectList(allState, "StateId", "StateName");
             //ViewBag.caPATCHA = status ? "validation success" : "validation failed";
-            if (ModelState.IsValid)
+            //var ImageSize = userImage.ContentLength;
+            //var ImageType = userImage.ContentType;
+            var userAvatarStatus = "";
+            if ((userImage != null) && ((userImage.ContentLength < 4200000) && (userImage.ContentType == "image/jpeg" || userImage.ContentType == "image/png" || userImage.ContentType == "image/jpg" || userImage.ContentType == "image/gif" || userImage.ContentType == "image/bmp")))
             {
-                
-                if (status == false)
-                {
-                    ViewBag.reCAPTCHA = "Captcha is invalid";
-                    return View();
-                }
-                using (ApplicationDbContext dbContext = new ApplicationDbContext())
-                {
-                    var roleId = (from r in dbContext.Roles
-                                  where r.Name.Equals(model.RoleType)
-                                  select r
-                                     );
-                    foreach (var item in roleId)
-                    {
-                        model.RoleId = item.Id;
-                    }
-                    if (userImage != null)
-                    {
-                        Avatar avatarModel = new Avatar();
-                        avatarModel.AvatarData = new byte[userImage.ContentLength];
-                        userImage.InputStream.Read(avatarModel.AvatarData, 0, userImage.ContentLength);
-                        Guid id = Guid.NewGuid();
-                        avatarModel.AvatarId = id.ToString();
-                        model.AvatarId = avatarModel.AvatarId;
-                        dbContext.Avatar.Add(avatarModel);
-                        dbContext.SaveChanges();
-                    }
-                    else
-                    {
-                        model.AvatarId = null;
-                    }
-                }
-                
-
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = model.DOB, CountryId = model.CountryId, StateId = model.StateId, RoleId = model.RoleId, AvatarId = model.AvatarId };
-                var result = await UserManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
-                {
-                    Session["profilePicture"] = model.Email;
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    //return RedirectToAction("Index", "Home");
-                    return RedirectToAction("CheckEmailForNewAccount");
-                }
-                AddErrors(result);
+                userAvatarStatus = "Success";
             }
-            
+            else
+            {
+                ViewBag.InvalidImage = "Invalid Upload";
+                return View(model);
+            }
+            if (ModelState.IsValid && userAvatarStatus == "Success")
+                {
+
+                    if (status == false)
+                    {
+                        ViewBag.reCAPTCHA = "Captcha is invalid";
+                        return View();
+                    }
+                    using (ApplicationDbContext dbContext = new ApplicationDbContext())
+                    {
+                        var roleId = (from r in dbContext.Roles
+                                      where r.Name.Equals(model.RoleType)
+                                      select r
+                                         );
+                        foreach (var item in roleId)
+                        {
+                            model.RoleId = item.Id;
+                        }
+                        if (userImage != null)
+                        {
+                            Avatar avatarModel = new Avatar();
+                            avatarModel.AvatarData = new byte[userImage.ContentLength];
+                            userImage.InputStream.Read(avatarModel.AvatarData, 0, userImage.ContentLength);
+                            Guid id = Guid.NewGuid();
+                            avatarModel.AvatarId = id.ToString();
+                            model.AvatarId = avatarModel.AvatarId;
+                            dbContext.Avatar.Add(avatarModel);
+                            dbContext.SaveChanges();
+                        }
+                        else
+                        {
+                            model.AvatarId = null;
+                        }
+                    }
+
+
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = model.DOB, CountryId = model.CountryId, StateId = model.StateId, RoleId = model.RoleId, AvatarId = model.AvatarId };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        Session["profilePicture"] = model.Email;
+                        //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        //return RedirectToAction("Index", "Home");
+                        return RedirectToAction("CheckEmailForNewAccount");
+                    }
+                    AddErrors(result);
+                }
+           
+
             // If we got this far, something failed, redisplay form
+            
             return View(model);
         }
 
@@ -270,7 +291,16 @@ namespace Volunteers_ReadyToHelp.Controllers
             Session["profilePicture"] = "";
             //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             var result = await UserManager.ConfirmEmailAsync(userId, code);
+            Session["profilePicture"] = "";
             var user = UserManager.FindById(userId);
+            //ApplicationDbContext DbContext = new ApplicationDbContext();
+            //var userAvatar = (from u in DbContext.Users
+            //                  where u.Id.Equals(user.Id)
+            //                  join a in DbContext.Avatar
+            //                  on u.AvatarId equals a.AvatarId
+            //                  select a.AvatarData.ToString()
+            //                      );
+            //Session["profilePicture"] = userAvatar;
             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             //return View(result.Succeeded ? "ConfirmEmail" : "Error");
             return RedirectToAction("Index","Home");
@@ -533,18 +563,35 @@ namespace Volunteers_ReadyToHelp.Controllers
             return View();
         }
         
-        public async Task<ActionResult> Profile(ProfileViewModel model)
+        [AllowAnonymous]
+        public ActionResult Organization()
         {
-            var a = Session["profilePicture"];
+            return View();
+        }
+
+        public async Task<ActionResult> UserProfile(ProfileViewModel model)
+        {
+            //var a = Session["profilePicture"];
+            List<object> myModel = new List<object>();
             var info = await AuthenticationManager.GetExternalLoginInfoAsync();
             var user = UserManager.FindById(User.Identity.GetUserId());
             ApplicationDbContext dbContext = new ApplicationDbContext();
-            var userImage = (from u in dbContext.Users where u.AvatarId.Equals(user.AvatarId)
+            var userImage = (from u in dbContext.Users
+                             where u.AvatarId.Equals(user.AvatarId)
                              join av in dbContext.Avatar
-                             on u.AvatarId equals av.AvatarId 
+                             on u.AvatarId equals av.AvatarId
                              select av
                             ).ToList();
-            return View(model);
+            foreach (var item in userImage)
+            {
+                model.AvatarId = item.AvatarId;
+            }
+            var userDetails = (from u in dbContext.Users
+                               where u.Id.Equals(user.Id)
+                               select u).ToList();
+            myModel.Add(model);
+            myModel.Add(userDetails);
+            return View(myModel);
         }
         [AllowAnonymous]
         public ActionResult EmailNotConfirmed(ExternalLoginConfirmationViewModel model, string userId)
@@ -633,6 +680,42 @@ namespace Volunteers_ReadyToHelp.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
+        #endregion
+
+        #region RetriveUserProfilePicture
+        /// <summary>
+        /// This function retrive the image binary date from the database and convert into string helps to represent the image
+        /// </summary>
+        /// <param name="UserId">Current User Id</param>
+        /// <returns></returns>
+        public string RetriveUserProfilePicture(string UserId)
+        {
+            byte[] AvatarBinaryData = null;
+            string imgsrc;
+            ApplicationDbContext DbContext = new ApplicationDbContext();
+            var userAvatar = (from u in DbContext.Users
+                              where u.Id.Equals(UserId)
+                              join a in DbContext.Avatar
+                              on u.AvatarId equals a.AvatarId
+                              select a
+                              ).ToList();
+            foreach (var item in userAvatar)
+            {
+                AvatarBinaryData = item.AvatarData;
+            }
+            if (AvatarBinaryData == null)
+            {
+                imgsrc = "No Image";
+            }
+            else
+            {
+                var base64 = Convert.ToBase64String(AvatarBinaryData);
+                imgsrc = string.Format("data:image/png;base64,{0}", base64);
+            }
+            
+            return imgsrc;
+        }
+
         #endregion
     }
 }
