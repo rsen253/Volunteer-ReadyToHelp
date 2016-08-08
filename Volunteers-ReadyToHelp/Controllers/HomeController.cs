@@ -12,58 +12,57 @@ namespace Volunteers_ReadyToHelp.Controllers
 {
     public class HomeController : Controller
     {
+        public AccountController accountController = new AccountController();
         public ActionResult Index()
         {
-
-            //Session["profilePicture"] = "";
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    var userId = User.Identity.GetUserId();
-            //    var user = UserManager.FindById(userId);
-            //    byte[] AvatarBinaryData = null;
-            //    ApplicationDbContext DbContext = new ApplicationDbContext();
-            //    var userAvatar = (from u in DbContext.Users
-            //                      where u.Id.Equals(userId)
-            //                      join a in DbContext.Avatar
-            //                      on u.AvatarId equals a.AvatarId
-            //                      select a
-            //                      ).ToList();
-            //    foreach (var item in userAvatar)
-            //    {
-            //        AvatarBinaryData = item.AvatarData;
-            //    }
-            //    if (AvatarBinaryData == null)
-            //    {
-            //        Session["profilePicture"] = "No Image";
-            //    }
-            //    else
-            //    {
-            //        var base64 = Convert.ToBase64String(AvatarBinaryData);
-            //        Session["profilePicture"] = string.Format("data:image/png;base64,{0}", base64);
-            //    }
-            //}
-
+            var imgsrc = CheckRememberMe();
+            Session["ProfilePic"] = imgsrc;
             return View();
         }
 
+        
+
         public ActionResult Mission()
         {
+            CheckRememberMe();
+            var imgsrc = CheckRememberMe();
+            Session["ProfilePic"] = imgsrc;
             return View();
         }
 
         public ActionResult Services()
         {
+            CheckRememberMe();
+            var imgsrc = CheckRememberMe();
+            Session["ProfilePic"] = imgsrc;
             return View();
         }
 
         public ActionResult AllActivities()
         {
+            CheckRememberMe();
+            var imgsrc = CheckRememberMe();
+            Session["ProfilePic"] = imgsrc;
             return View();
         }
 
         public ActionResult ActivityDetails()
         {
             return View();
+        }
+
+        /// <summary>
+        /// Check is the user is authenticated and sign as remember me before
+        /// </summary>
+        private string CheckRememberMe()
+        {
+            var imgsrc = "";
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = User.Identity.GetUserId();
+                imgsrc = accountController.RetriveUserProfilePic(userId);
+            }
+            return imgsrc;
         }
     }
 }

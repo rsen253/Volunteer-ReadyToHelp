@@ -11,7 +11,7 @@ namespace Volunteers_ReadyToHelp.Models
     {
         [Key]
         public string OrganizationId { get; set; }
-        public bool MyProperty { get; set; }
+        public bool OrganizationStatus { get; set; }
         public DateTime JoinDate { get; set; }
 
         [ForeignKey("OrganizationId")]

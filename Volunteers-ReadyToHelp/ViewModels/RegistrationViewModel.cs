@@ -32,7 +32,7 @@ namespace Volunteers_ReadyToHelp.ViewModels
         //[Display(Name= "Mobile Number")]
         //[RegularExpression("[0-9]{10}")]
         //public string Mobile { get; set; }
-        [Required]
+        
         public string DOB { get; set; }
         [Required]
         [Display(Name= "Country")]
@@ -47,5 +47,11 @@ namespace Volunteers_ReadyToHelp.ViewModels
         [Display(Name= "User Avatar")]
         public byte[] Avatar { get; set; }
         public string AvatarId { get; set; }
+        
+        [Display(Name= "About Organization")]
+        public string AboutOrganization { get; set; }
+        
+        [Display(Name= "Established On")]
+        public string Establishedon { get; set; }
     }
 }

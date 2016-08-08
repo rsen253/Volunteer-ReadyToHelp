@@ -189,6 +189,18 @@
     <Compile Include="Migrations\201608021407563_AddedNewTableForPoint.Designer.cs">
       <DependentUpon>201608021407563_AddedNewTableForPoint.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608080506224_AddedNewFileldInAvater.cs" />
+    <Compile Include="Migrations\201608080506224_AddedNewFileldInAvater.Designer.cs">
+      <DependentUpon>201608080506224_AddedNewFileldInAvater.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608080944415_ModifyOrganizationStatustableColumnName.cs" />
+    <Compile Include="Migrations\201608080944415_ModifyOrganizationStatustableColumnName.Designer.cs">
+      <DependentUpon>201608080944415_ModifyOrganizationStatustableColumnName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608081139517_ChangeColumnNameofOrganization.cs" />
+    <Compile Include="Migrations\201608081139517_ChangeColumnNameofOrganization.Designer.cs">
+      <DependentUpon>201608081139517_ChangeColumnNameofOrganization.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Avatar.cs" />
@@ -333,6 +345,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608021407563_AddedNewTableForPoint.resx">
       <DependentUpon>201608021407563_AddedNewTableForPoint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608080506224_AddedNewFileldInAvater.resx">
+      <DependentUpon>201608080506224_AddedNewFileldInAvater.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608080944415_ModifyOrganizationStatustableColumnName.resx">
+      <DependentUpon>201608080944415_ModifyOrganizationStatustableColumnName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608081139517_ChangeColumnNameofOrganization.resx">
+      <DependentUpon>201608081139517_ChangeColumnNameofOrganization.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

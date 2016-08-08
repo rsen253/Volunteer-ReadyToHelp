@@ -6,10 +6,10 @@
 
     <div class="row">
         <div class="col-sm-3">
-
-            @if (Session["profilePicture"] != "No Image")
+            
+            @if (Session["ProfilePic"].ToString().Length > 2)
             {
-                <img src="@Session["profilePicture"]" class="img-responsive" style="height:170px;width:170px;">
+                <img src="@Session["ProfilePic"]" class="img-responsive" style="height:170px;width:170px;">
             }
             else
             {

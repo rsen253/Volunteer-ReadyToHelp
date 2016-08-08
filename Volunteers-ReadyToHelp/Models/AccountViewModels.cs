@@ -16,7 +16,7 @@ namespace Volunteers_ReadyToHelp.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
         public string Link { get; set; }
-        public string ProfilePicture { get; set; }
+        public string ProfilePic { get; set; }
         //public string Age { get; set; }
     }
 
