@@ -14,6 +14,7 @@ using Volunteers_ReadyToHelp.Models;
 using System.Net.Mail;
 using Twilio;
 using System.Configuration;
+using System.Net;
 
 namespace Volunteers_ReadyToHelp
 {
@@ -41,7 +42,6 @@ namespace Volunteers_ReadyToHelp
                 return Task.FromResult(0);
                 throw;
             }
-
         }
     }
 

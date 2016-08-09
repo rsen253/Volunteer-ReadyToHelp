@@ -15,6 +15,7 @@ namespace Volunteers_ReadyToHelp.Controllers
         public AccountController accountController = new AccountController();
         public ActionResult Index()
         {
+            
             var imgsrc = CheckRememberMe();
             Session["ProfilePic"] = imgsrc;
             return View();

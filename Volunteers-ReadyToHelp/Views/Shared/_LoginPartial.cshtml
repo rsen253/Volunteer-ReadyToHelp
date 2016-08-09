@@ -1,8 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
 
-@{
-    var a = Session["ProfilePic"];
-}
 @if (Request.IsAuthenticated)
 {
     <li>
@@ -14,15 +11,21 @@
                 <img class="img-circle" src="@Session["ProfilePic"]" style="height:50px;width:50px;margin-top:-14px" alt="Alternate Text" />
             </a>
         }
-        else if (@Session["ProfilePic"].ToString().Length == 2)
+        else if (@Session["ProfilePic"].ToString().Length < 11)
         {
             @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "UserProfile", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })*@
-            
+           
+                var Profilepic = Session["ProfilePic"].ToString();
+                var position = Profilepic.IndexOf("_");
+                var color = Profilepic.Substring(0,position);
+                Profilepic = Profilepic.Replace(color + "_","");
+                
             <a href="@Url.Action("UserProfile", "Account")">
-                <div id="shortName" class="img-circle" style="height:50px;width:50px;margin-top:-35px;background-color:#00ffff" alt="Alternate Text">
-                    <h3 style="padding-top:12px;">@Session["ProfilePic"]</h3>
+                <div id="shortName" class="img-circle" style="height:50px;width:50px;margin-top:-35px;background-color:@color" alt="Alternate Text">
+                    <h3 style="padding-top:12px;">@Profilepic</h3>
                 </div>
             </a>
+            
         }
         else if (@Session["ProfilePic"].ToString().IndexOf("http") == -1)
         {

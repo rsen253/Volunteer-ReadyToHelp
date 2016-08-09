@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Volunteer - Ready to help</title>
     @Styles.Render("~/Content/css")
+    @if (IsSectionDefined("AddToHead"))
+    {
+        @RenderSection("AddToHead", required: false)
+    }
+
+    @RenderSection("AddToHeadAnotherWay", required: false)
 </head>
 <body>
     <header>

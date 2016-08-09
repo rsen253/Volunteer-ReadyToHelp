@@ -219,7 +219,7 @@ namespace Volunteers_ReadyToHelp.Controllers
             }
             if (ModelState.IsValid && userAvatarStatus == "Success")
                 {
-
+                    model.AbbreviationId = 0;
                     if (status == false)
                     {
                         ViewBag.reCAPTCHA = "Captcha is invalid";
@@ -248,6 +248,14 @@ namespace Volunteers_ReadyToHelp.Controllers
                         }
                         else
                         {
+                            Abbreviation abbreviationModel = new Abbreviation();
+                            var firstName = model.FirstName.ToCharArray()[0].ToString().ToUpper();
+                            var color = (from c in dbContext.Abbreviation
+                                             where c.alphabet.Equals(firstName) select c).ToList();
+                            foreach (var item in color)
+                            {
+                                model.AbbreviationId = item.AbbreviationId;
+                            }
                             model.AvatarId = null;
                         }
                     }
@@ -256,7 +264,7 @@ namespace Volunteers_ReadyToHelp.Controllers
                         model.DOB = null;
                     }
 
-                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = model.DOB, CountryId = model.CountryId, StateId = model.StateId, RoleId = model.RoleId, AvatarId = model.AvatarId };
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = model.DOB, CountryId = model.CountryId, StateId = model.StateId, RoleId = model.RoleId, AvatarId = model.AvatarId, ColorId = model.AbbreviationId };
                     var result = await UserManager.CreateAsync(user, model.Password);
 
                     if (result.Succeeded)
@@ -735,52 +743,72 @@ namespace Volunteers_ReadyToHelp.Controllers
         /// <returns></returns>
         public string RetriveUserProfilePic(string UserId)
         {
+            ViewBag.Color = "";
             byte[] AvatarBinaryData = null;
             string AvaterUrl = null;
             string ShortName = null;
             var imgSrc = "";
             ApplicationDbContext DbContext = new ApplicationDbContext();
-            var userAvatar = (from u in DbContext.Users
-                              where u.Id.Equals(UserId)
-                              join a in DbContext.Avatar
-                              on u.AvatarId equals a.AvatarId
-                              select a
+            var userDetails = (from u in dbContext.Users where (u.Id.Equals(UserId)) select u).ToList();
+            var AbbreviationId = 0;
+            foreach (var item in userDetails)
+            {
+                AbbreviationId = item.ColorId;
+            }
+            
+                var userAvatar = (from u in DbContext.Users
+                                  where u.Id.Equals(UserId)
+                                  join a in DbContext.Avatar
+                                  on u.AvatarId equals a.AvatarId
+                                  select a
                               ).ToList();
-            foreach (var item in userAvatar)
-            {
-                AvatarBinaryData = item.AvatarData;
-                AvaterUrl = item.ExternalLoginUserPictureUrl;
-            }
-            if (AvatarBinaryData == null && AvaterUrl != null)
-            {
-                imgSrc = AvaterUrl;
-                
-            }
-            else if (AvatarBinaryData == null && AvaterUrl == null)
-            {
-                imgSrc = "No Image";
-                var userDetails = (from u in dbContext.Users where (u.Id.Equals(UserId)) select u).ToList();
-                foreach (var item in userDetails)
+                foreach (var item in userAvatar)
                 {
-                    var FirstName = item.FirstName;
-                    var LastName = item.LastName;
-                    ShortName = FirstName.ToCharArray()[0].ToString() + LastName.ToCharArray()[0].ToString();
-                    imgSrc = ShortName;
+                    AvatarBinaryData = item.AvatarData;
+                    AvaterUrl = item.ExternalLoginUserPictureUrl;
                 }
-                //if (UserDetails != null)
-                //{
-                //    var userFirstName = UserDetails.FirstName;
-                //    var userLastName = UserDetails.LastName;
-                //    var a = userFirstName.ToCharArray()[0].ToString() + userLastName.ToCharArray()[0].ToString();
-                //}
-                
-            }
-            else
+                if (AvatarBinaryData == null && AvaterUrl != null)
+                {
+                    imgSrc = AvaterUrl;
+
+                }
+                else if (AvatarBinaryData == null && AvaterUrl == null)
+                {
+                    imgSrc = "No Image";
+                    //var userDetails = (from u in dbContext.Users where (u.Id.Equals(UserId)) select u).ToList();
+                    foreach (var item in userDetails)
+                    {
+                        var FirstName = item.FirstName;
+                        var LastName = item.LastName;
+                        ShortName = FirstName.ToCharArray()[0].ToString() + LastName.ToCharArray()[0].ToString();
+                        imgSrc = ShortName;
+                    }
+                    //if (UserDetails != null)
+                    //{
+                    //    var userFirstName = UserDetails.FirstName;
+                    //    var userLastName = UserDetails.LastName;
+                    //    var a = userFirstName.ToCharArray()[0].ToString() + userLastName.ToCharArray()[0].ToString();
+                    //}
+
+                }
+                else
+                {
+                    var base64 = Convert.ToBase64String(AvatarBinaryData);
+                    imgSrc = string.Format("data:image/png;base64,{0}", base64);
+
+                }
+
+                if (AbbreviationId > 0)
             {
-                var base64 = Convert.ToBase64String(AvatarBinaryData);
-                imgSrc = string.Format("data:image/png;base64,{0}", base64);
+                var color = (from u in dbContext.Users
+                             join c in dbContext.Abbreviation
+                             on u.ColorId equals c.AbbreviationId
+                             select c.Color
+                             ).ToArray();
+                imgSrc = color[0].ToString() + "_" + imgSrc;
                 
             }
+            
 
             return imgSrc;
         }

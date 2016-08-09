@@ -53,5 +53,6 @@ namespace Volunteers_ReadyToHelp.ViewModels
         
         [Display(Name= "Established On")]
         public string Establishedon { get; set; }
+        public int AbbreviationId { get; set; }
     }
 }

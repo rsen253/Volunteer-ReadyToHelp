@@ -33,6 +33,7 @@ namespace Volunteers_ReadyToHelp.Models
         public DbSet<OrganizationState> OrganizationState { get; set; }
         public DbSet<Point> Point { get; set; }
         public DbSet<UserPoint> UserPoint { get; set; }
+        public DbSet<Abbreviation> Abbreviation { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

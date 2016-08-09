@@ -18,6 +18,16 @@ namespace Volunteers_ReadyToHelp.Controllers
         // Country Country = new Country();
         // GET: Admin
 
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Dashboard(LoginViewModel model)
+        {
+            return Content("Done");
+        }
+
         public ActionResult AddRole()
         {
             return View();
@@ -39,11 +49,7 @@ namespace Volunteers_ReadyToHelp.Controllers
             }
             return View();
         }
-        public ActionResult Index()
-        {
-            return RedirectToAction("AddCountry");
-        }
-
+        
         
         public ActionResult AddCountry()
         {

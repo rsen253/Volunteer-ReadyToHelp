@@ -122,3 +122,9 @@ M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHel
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.AddedNewFileldInAvater.resources
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.ModifyOrganizationStatustableColumnName.resources
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.ChangeColumnNameofOrganization.resources
+M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.AddedNewTableAndFileld.resources
+M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.ModifiedFiledOfAbbreviation.resources
+M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.ModifiedFiledOfAbbreviation1.resources
+M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.ChangeUserAbbribiationDataType.resources
+M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.ModifyUserTableColumnName.resources
+M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.ChangeRelation.resources

@@ -201,7 +201,32 @@
     <Compile Include="Migrations\201608081139517_ChangeColumnNameofOrganization.Designer.cs">
       <DependentUpon>201608081139517_ChangeColumnNameofOrganization.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608090536480_AddedNewTableAndFileld.cs" />
+    <Compile Include="Migrations\201608090536480_AddedNewTableAndFileld.Designer.cs">
+      <DependentUpon>201608090536480_AddedNewTableAndFileld.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608090540228_ModifiedFiledOfAbbreviation.cs" />
+    <Compile Include="Migrations\201608090540228_ModifiedFiledOfAbbreviation.Designer.cs">
+      <DependentUpon>201608090540228_ModifiedFiledOfAbbreviation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608090541112_ModifiedFiledOfAbbreviation1.cs" />
+    <Compile Include="Migrations\201608090541112_ModifiedFiledOfAbbreviation1.Designer.cs">
+      <DependentUpon>201608090541112_ModifiedFiledOfAbbreviation1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608090806349_ChangeUserAbbribiationDataType.cs" />
+    <Compile Include="Migrations\201608090806349_ChangeUserAbbribiationDataType.Designer.cs">
+      <DependentUpon>201608090806349_ChangeUserAbbribiationDataType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608091001276_ModifyUserTableColumnName.cs" />
+    <Compile Include="Migrations\201608091001276_ModifyUserTableColumnName.Designer.cs">
+      <DependentUpon>201608091001276_ModifyUserTableColumnName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608091007482_ChangeRelation.cs" />
+    <Compile Include="Migrations\201608091007482_ChangeRelation.Designer.cs">
+      <DependentUpon>201608091007482_ChangeRelation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Abbreviation.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Avatar.cs" />
     <Compile Include="Models\Country.cs" />
@@ -227,6 +252,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\styleAdmin.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -284,7 +310,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -328,6 +356,7 @@
     <Content Include="Views\Account\EmailNotConfirmed.cshtml" />
     <Content Include="Views\Admin\AddRole.cshtml" />
     <Content Include="Views\Account\Organization.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -354,6 +383,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608081139517_ChangeColumnNameofOrganization.resx">
       <DependentUpon>201608081139517_ChangeColumnNameofOrganization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608090536480_AddedNewTableAndFileld.resx">
+      <DependentUpon>201608090536480_AddedNewTableAndFileld.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608090540228_ModifiedFiledOfAbbreviation.resx">
+      <DependentUpon>201608090540228_ModifiedFiledOfAbbreviation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608090541112_ModifiedFiledOfAbbreviation1.resx">
+      <DependentUpon>201608090541112_ModifiedFiledOfAbbreviation1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608090806349_ChangeUserAbbribiationDataType.resx">
+      <DependentUpon>201608090806349_ChangeUserAbbribiationDataType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608091001276_ModifyUserTableColumnName.resx">
+      <DependentUpon>201608091001276_ModifyUserTableColumnName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608091007482_ChangeRelation.resx">
+      <DependentUpon>201608091007482_ChangeRelation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

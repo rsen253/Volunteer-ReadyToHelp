@@ -16,10 +16,12 @@ namespace Volunteers_ReadyToHelp.Models
         public string StateId { get; set; }
         public string RoleId { get; set; }
         public string AvatarId { get; set; }
+        public int ColorId { get; set; }
         
 
         public virtual Country Country { get; set; }
         public virtual State State { get; set; }
         public virtual Avatar Avataer { get; set; }
+       
     }
 }
