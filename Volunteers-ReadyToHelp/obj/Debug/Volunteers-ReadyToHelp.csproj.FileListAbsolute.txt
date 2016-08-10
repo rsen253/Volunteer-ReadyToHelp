@@ -128,3 +128,7 @@ M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHel
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.ChangeUserAbbribiationDataType.resources
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.ModifyUserTableColumnName.resources
 M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.ChangeRelation.resources
+M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.AddExceptionTable.resources
+M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.AddExceptionTable1.resources
+M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.AddAboutUserColumnInUser.resources
+M:\Volunteers-ReadyToHelp\Volunteers-ReadyToHelp\obj\Debug\Volunteers_ReadyToHelp.Migrations.RemoveColrIdColumnFormUser.resources

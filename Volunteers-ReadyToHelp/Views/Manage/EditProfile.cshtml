@@ -1,0 +1,151 @@
+﻿@model Volunteers_ReadyToHelp.ViewModels.ProfileViewModel
+
+
+<div class="container signUp">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-2 text-center">
+            @using (Html.BeginForm("EditProfile", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8 text-left">
+                            @Html.DropDownListFor(model => model.CountryId, new SelectList(ViewBag.CountryList, "Value", "Text", ViewBag.SelectedCountry), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*@Html.DropDownListFor(model => model.CountryId, new SelectList(ViewBag.CountryList, "Value", "Text", ViewBag.SelectedCountry));
+
+                        @Html.DropDownListFor(model => model.StateId, new SelectList(ViewBag.States, "Value", "Text", ViewBag.SelectedState));*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.StateId, new SelectList(ViewBag.States, "Value", "Text", ViewBag.SelectedState), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AboutMe, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextAreaFor(model => model.AboutMe, new { @class = "form-control", rows = "8", placeholder = "About yourself" })
+                            @Html.ValidationMessageFor(model => model.AboutMe, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="file" class="col-md-4">Upload Image:</label>
+                        <div class="col-md-6">
+                            <input type="file" name="userImage" id="userImage" />
+                            <p class="help-block text-danger">Image should not be more than 5 MB</p>
+                            <div class="col-md-2 text-danger">@ViewBag.InvalidImage</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-4 text-center">
+            @if (Session["ProfilePic"].ToString().Length > 11)
+            {
+                <img src="@Session["ProfilePic"]" class="img-responsive" style="height:170px;width:170px;">
+            }
+            else
+            {
+                @*var base64 = Convert.ToBase64String(Model.UserImage);
+            var imgsrc = string.Format("data:image/png;base64,{0}", base64);
+            <img src='@imgsrc' class="img-responsive" style="height:170px;width:170px;" />*@
+                <img src="http://vignette3.wikia.nocookie.net/simpsons/images/6/60/No_Image_Available.png/revision/latest?cb=20130527163652" class="img-responsive" style="height:170px;width:170px;">
+            }
+            <div class="col-md-12">
+                
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src="https://cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            $(".navbar").css("background", "#4c726f");
+            //$("#CountryId").addClass("form-control");
+
+            //$("#StateId").addClass("form-control");
+            $("#CountryId").change(function () {
+                // this will call when Country Dropdown select change
+                var countryId = $("#CountryId").val();
+                if (countryId != null) {
+                    var ddState = $("#StateId");
+                    ddState.empty(); // this line is for clear all items from State dropdown
+                    ddState.append($("<option></option").val("").html("Select State"));
+
+                    // Here I will call Controller Action via Jquery to load State for selected Country
+                    $.ajax({
+                        url: "@Url.Action("GetStates","Admin")",
+                        type: "GET",
+                        data: { countryId: countryId },
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data);
+                            $.each(data, function (i, val) {
+                                ddState.append(
+                                        $("<option></option>").val(val.StateId).html(val.StateName)
+                                    );
+                            });
+                        },
+                        error: function () {
+                            alert("Error!");
+                        }
+                    });
+                }
+            });
+
+            //for showing jquery calendar
+            $("#DOB").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+
+            //CKEDITOR.replace('AboutOrganization');
+        });
+
+    </script>
+}

@@ -7,6 +7,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Volunteers_ReadyToHelp.Models;
+using Volunteers_ReadyToHelp.ViewModels;
+using System.Collections.Generic;
+using Volunteers_ReadyToHelp.ServiceLayer;
+using System.Data.Entity;
 
 namespace Volunteers_ReadyToHelp.Controllers
 {
@@ -15,7 +19,8 @@ namespace Volunteers_ReadyToHelp.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private ApplicationDbContext dbContext = new ApplicationDbContext();
+        private ExceptionHandler ExceptionLogger = new ExceptionHandler();
         public ManageController()
         {
         }
@@ -99,6 +104,119 @@ namespace Volunteers_ReadyToHelp.Controllers
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
+        //GET:/Manage/EditProfile
+        public ActionResult EditProfile()
+        {
+            try
+            {
+                List<Country> allCountry = new List<Country>();
+                allCountry = dbContext.Country.OrderBy(a => a.CountryName).ToList();
+                List<SelectListItem> countyList = new List<SelectListItem>();
+                foreach (var item in allCountry)
+                {
+                    countyList.Add(new SelectListItem { Text = item.CountryName, Value = item.CountryId });
+                }
+
+                ViewBag.CountryList = countyList;
+                //ViewBag.CountryId = new SelectList(allCountry, "CountryId", "CountryName", ViewBag.SelectedItem);
+                var userDetails = UserManager.FindById(User.Identity.GetUserId());
+                ProfileViewModel model = new ProfileViewModel();
+                //model.CountryList = allCountry;
+                model.FirstName = userDetails.FirstName;
+                model.LastName = userDetails.LastName;
+                model.AboutMe = userDetails.AboutUser;
+                var UserID = User.Identity.GetUserId();
+                var country = (from u in dbContext.Users
+                               where u.Id.Equals(UserID)
+                               join c in dbContext.Country
+                                   on u.CountryId equals c.CountryId
+                               select c).ToList();
+                var UserCountry = "";
+                
+                foreach (var item in country)                   
+                {
+                    UserCountry = item.CountryId;
+                }
+                ViewBag.SelectedCountry = UserCountry;
+                var state = (from s in dbContext.State where s.CountryId.Equals(UserCountry) select s).ToList() ;
+                
+                List<SelectListItem> stateList = new List<SelectListItem>();
+                foreach (var item in state)
+                {
+                    stateList.Add(new SelectListItem { Text = item.StateName, Value = item.StateId });
+                }
+                
+                var CurrentState = (from u in dbContext.Users where u.Id.Equals(UserID)
+                                        join s in dbContext.State on u.StateId equals s.StateId
+                                    select s.StateId).ToArray(); ;
+                ViewBag.SelectedState = CurrentState[0];
+                ViewBag.States = stateList;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex, User.Identity.IsAuthenticated, Request.Browser.Browser);
+                return View("Error");
+            }
+            
+        }
+
+
+        //Post
+        [HttpPost]
+        public async Task<ActionResult> EditProfile(ProfileViewModel model, HttpPostedFileBase userImage)
+        {
+            try
+            {
+                var userDetails = UserManager.FindById(User.Identity.GetUserId());
+                if (userDetails != null)
+                {
+                    userDetails.FirstName = model.FirstName;
+                    userDetails.LastName = model.LastName;
+                    userDetails.CountryId = model.CountryId;
+                    userDetails.StateId = model.StateId;
+                    userDetails.AboutUser = model.AboutMe;
+                    if ((userImage != null) && ((userImage.ContentLength < 4200000) && (userImage.ContentType == "image/jpeg" || userImage.ContentType == "image/png" || userImage.ContentType == "image/jpg" || userImage.ContentType == "image/gif" || userImage.ContentType == "image/bmp")))
+                    {
+                        if (userDetails.AvatarId != null)
+                        {
+                            Guid id = Guid.NewGuid();
+                            userDetails.AvatarId = id.ToString();
+                            Avatar avatarModel = new Avatar();
+                            avatarModel.AvatarData = new byte[userImage.ContentLength];
+                            userImage.InputStream.Read(avatarModel.AvatarData, 0, userImage.ContentLength);
+                            avatarModel.AvatarId = id.ToString();
+                            model.AvatarId = avatarModel.AvatarId;
+                            dbContext.Avatar.Add(avatarModel);
+                        }
+                        else
+                        {
+                            
+                            Avatar avatarModel = new Avatar();
+                            avatarModel.AvatarData = new byte[userImage.ContentLength];
+                            userImage.InputStream.Read(avatarModel.AvatarData, 0, userImage.ContentLength);
+                            avatarModel.AvatarId = userDetails.AvatarId;
+                            dbContext.Entry(avatarModel).State = EntityState.Modified;
+                            dbContext.SaveChanges();
+                        }
+                        
+                    }
+                    //var firstName = model.FirstName.ToCharArray()[0].ToString().ToUpper();
+                    //var colorID = (from c in dbContext.Abbreviation
+                    //               where c.alphabet.Equals(firstName)
+                    //               select c.AbbreviationId).ToArray();
+                    //userDetails.ColorId = colorID[0];
+                }
+                await UserManager.UpdateAsync(userDetails);
+                return RedirectToAction("UserProfile", "Account");
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex, User.Identity.IsAuthenticated, Request.Browser.Browser);
+                return View("Error");
+            }
+            
+        }
         //
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()

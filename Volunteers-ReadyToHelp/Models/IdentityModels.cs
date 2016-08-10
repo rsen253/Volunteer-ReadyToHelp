@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Volunteers_ReadyToHelp.ServiceLayer;
+
 
 namespace Volunteers_ReadyToHelp.Models
 {
@@ -34,6 +36,7 @@ namespace Volunteers_ReadyToHelp.Models
         public DbSet<Point> Point { get; set; }
         public DbSet<UserPoint> UserPoint { get; set; }
         public DbSet<Abbreviation> Abbreviation { get; set; }
+        public DbSet<ExceptionLog> ExceptionLog { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

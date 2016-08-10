@@ -27,9 +27,20 @@
         </div>
         <div class="col-md-2 text-center">
 
-            <a href="@Url.Action("Index", "Manage")" class="btn btn-warning">
-                <i class="fa fa-cog fa-5x"></i>
-            </a>
+            @*<a href="@Url.Action("Index", "Manage")" class="btn btn-warning">
+                
+            </a>*@
+
+            <div class="dropdown">
+                <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-cog fa-5x"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="@Url.Action("Index", "Manage")">Account</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="@Url.Action("EditProfile", "Manage")">Profile</a></li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="row attended-events">

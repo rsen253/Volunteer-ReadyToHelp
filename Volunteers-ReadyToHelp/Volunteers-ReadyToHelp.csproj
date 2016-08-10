@@ -225,8 +225,25 @@
     <Compile Include="Migrations\201608091007482_ChangeRelation.Designer.cs">
       <DependentUpon>201608091007482_ChangeRelation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608100828545_AddExceptionTable.cs" />
+    <Compile Include="Migrations\201608100828545_AddExceptionTable.Designer.cs">
+      <DependentUpon>201608100828545_AddExceptionTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608100937260_AddExceptionTable1.cs" />
+    <Compile Include="Migrations\201608100937260_AddExceptionTable1.Designer.cs">
+      <DependentUpon>201608100937260_AddExceptionTable1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608101138066_AddAboutUserColumnInUser.cs" />
+    <Compile Include="Migrations\201608101138066_AddAboutUserColumnInUser.Designer.cs">
+      <DependentUpon>201608101138066_AddAboutUserColumnInUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608101246415_RemoveColrIdColumnFormUser.cs" />
+    <Compile Include="Migrations\201608101246415_RemoveColrIdColumnFormUser.Designer.cs">
+      <DependentUpon>201608101246415_RemoveColrIdColumnFormUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Abbreviation.cs" />
+    <Compile Include="Models\AboutUser.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Avatar.cs" />
     <Compile Include="Models\Country.cs" />
@@ -239,6 +256,8 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\ExceptionLog.cs" />
+    <Compile Include="ServiceLayer\ExceptionHandler.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CountryStateViewModel.cs" />
     <Compile Include="ViewModels\LoginUserViewModel.cs" />
@@ -357,6 +376,7 @@
     <Content Include="Views\Admin\AddRole.cshtml" />
     <Content Include="Views\Account\Organization.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Manage\EditProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -401,6 +421,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608091007482_ChangeRelation.resx">
       <DependentUpon>201608091007482_ChangeRelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608100828545_AddExceptionTable.resx">
+      <DependentUpon>201608100828545_AddExceptionTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608100937260_AddExceptionTable1.resx">
+      <DependentUpon>201608100937260_AddExceptionTable1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608101138066_AddAboutUserColumnInUser.resx">
+      <DependentUpon>201608101138066_AddAboutUserColumnInUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608101246415_RemoveColrIdColumnFormUser.resx">
+      <DependentUpon>201608101246415_RemoveColrIdColumnFormUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

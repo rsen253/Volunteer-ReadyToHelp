@@ -17,6 +17,7 @@ using System.Net;
 using Newtonsoft.Json.Linq;
 using System.Configuration;
 using System.Data.Entity;
+using Volunteers_ReadyToHelp.ServiceLayer;
 
 namespace Volunteers_ReadyToHelp.Controllers
 {
@@ -82,7 +83,6 @@ namespace Volunteers_ReadyToHelp.Controllers
             {
                 return View(model);
             }
-
             //Session["ProfilePic"] = "";
 
             // This doesn't count login failures towards account lockout
@@ -246,25 +246,25 @@ namespace Volunteers_ReadyToHelp.Controllers
                             dbContext.Avatar.Add(avatarModel);
                             dbContext.SaveChanges();
                         }
-                        else
-                        {
-                            Abbreviation abbreviationModel = new Abbreviation();
-                            var firstName = model.FirstName.ToCharArray()[0].ToString().ToUpper();
-                            var color = (from c in dbContext.Abbreviation
-                                             where c.alphabet.Equals(firstName) select c).ToList();
-                            foreach (var item in color)
-                            {
-                                model.AbbreviationId = item.AbbreviationId;
-                            }
-                            model.AvatarId = null;
-                        }
+                        //else
+                        //{
+                        //    Abbreviation abbreviationModel = new Abbreviation();
+                        //    var firstName = model.FirstName.ToCharArray()[0].ToString().ToUpper();
+                        //    var color = (from c in dbContext.Abbreviation
+                        //                     where c.alphabet.Equals(firstName) select c).ToList();
+                        //    foreach (var item in color)
+                        //    {
+                        //        model.AbbreviationId = item.AbbreviationId;
+                        //    }
+                        //    model.AvatarId = null;
+                        //}
                     }
                     if (model.RoleType == "Organization")
                     {
                         model.DOB = null;
                     }
 
-                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = model.DOB, CountryId = model.CountryId, StateId = model.StateId, RoleId = model.RoleId, AvatarId = model.AvatarId, ColorId = model.AbbreviationId };
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = model.DOB, CountryId = model.CountryId, StateId = model.StateId, RoleId = model.RoleId, AvatarId = model.AvatarId };
                     var result = await UserManager.CreateAsync(user, model.Password);
 
                     if (result.Succeeded)
@@ -747,13 +747,15 @@ namespace Volunteers_ReadyToHelp.Controllers
             byte[] AvatarBinaryData = null;
             string AvaterUrl = null;
             string ShortName = null;
+            string firstName = null;
             var imgSrc = "";
             ApplicationDbContext DbContext = new ApplicationDbContext();
             var userDetails = (from u in dbContext.Users where (u.Id.Equals(UserId)) select u).ToList();
-            var AbbreviationId = 0;
+            //var AbbreviationId = 0;
             foreach (var item in userDetails)
             {
-                AbbreviationId = item.ColorId;
+                //AbbreviationId = item.ColorId;
+                firstName = item.FirstName;
             }
             
                 var userAvatar = (from u in DbContext.Users
@@ -782,6 +784,11 @@ namespace Volunteers_ReadyToHelp.Controllers
                         var LastName = item.LastName;
                         ShortName = FirstName.ToCharArray()[0].ToString() + LastName.ToCharArray()[0].ToString();
                         imgSrc = ShortName;
+                        var UserShortFirstName = firstName.ToCharArray()[0].ToString().ToUpper();
+                        var color = (from c in dbContext.Abbreviation
+                                     where c.alphabet.Equals(UserShortFirstName)
+                                     select c.Color).ToArray();
+                        imgSrc = color[0].ToString() + "_" + imgSrc;
                     }
                     //if (UserDetails != null)
                     //{
@@ -798,21 +805,26 @@ namespace Volunteers_ReadyToHelp.Controllers
 
                 }
 
-                if (AbbreviationId > 0)
-            {
-                var color = (from u in dbContext.Users
-                             join c in dbContext.Abbreviation
-                             on u.ColorId equals c.AbbreviationId
-                             select c.Color
-                             ).ToArray();
-                imgSrc = color[0].ToString() + "_" + imgSrc;
+            //    if (AbbreviationId > 0)
+            //{
+            //    //var color = (from u in dbContext.Users where u.Id.Equals(UserId)
+            //    //             join c in dbContext.Abbreviation
+            //    //             on u.ColorId equals c.AbbreviationId
+            //    //             select c.Color
+            //    //             ).ToArray();
+            //    var color = (from c in dbContext.Abbreviation
+            //                 where c.alphabet.Equals(firstName.ToCharArray()[0].ToString().ToUpper())
+            //                     select c.Color).ToArray();
+            //    imgSrc = color[0].ToString() + "_" + imgSrc;
                 
-            }
+            //}
             
 
             return imgSrc;
         }
 
         #endregion
+
+        
     }
 }
